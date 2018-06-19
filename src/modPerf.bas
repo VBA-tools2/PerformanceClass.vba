@@ -26,19 +26,23 @@ Public Sub ReportPerformance()
     Dim vNewPerf() As Variant
     Dim iRow As Long
     Dim iCol As Long
-    ReDim vNewPerf(1 To UBound(gvPerfResults, 2) + 1, 1 To 3)
-    vNewPerf(1, 1) = "Routine"
-    vNewPerf(1, 2) = "Started at"
-    vNewPerf(1, 3) = "Time taken"
     
-    For iRow = 1 To UBound(gvPerfResults, 2)
-        For iCol = 1 To 3
+    ReDim vNewPerf( _
+            LBound(gvPerfResults, 2) To UBound(gvPerfResults, 2) + 1, _
+            LBound(gvPerfResults, 1) To UBound(gvPerfResults, 1) _
+    )
+    vNewPerf(LBound(vNewPerf), 1) = "Routine"
+    vNewPerf(LBound(vNewPerf), 2) = "Started at"
+    vNewPerf(LBound(vNewPerf), 3) = "Time taken"
+    
+    For iRow = LBound(gvPerfResults, 2) To UBound(gvPerfResults, 2)
+        For iCol = LBound(gvPerfResults, 1) To UBound(gvPerfResults, 1)
             vNewPerf(iRow + 1, iCol) = gvPerfResults(iCol, iRow)
         Next
     Next
     Workbooks.Add
     With ActiveSheet
-        .Range("A1").Resize(UBound(vNewPerf, 1), 3).Value = vNewPerf
+        .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
         .UsedRange.EntireColumn.AutoFit
     End With
     AddPivot
