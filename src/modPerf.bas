@@ -52,7 +52,7 @@ Public Sub ReportPerformance()
     With wks
         .Name = "RoutineTable"
         .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
-        .UsedRange.EntireColumn.AutoFit
+'        .UsedRange.EntireColumn.AutoFit
         
         .ListObjects.Add(xlSrcRange, .UsedRange, , xlYes).Name = _
                 "RoutineTable"
