@@ -2,9 +2,9 @@ Attribute VB_Name = "modPerf"
 Option Explicit
 
 'For clsPerf Class:
-Public glPerfIndex  As Long
+Public giPerfIndex  As Long
 Public gvPerfResults() As Variant
-Public glDepth As Long
+Public giDepth As Long
 Public Const gbDebug As Boolean = True
 
 Sub Demo()
@@ -18,22 +18,22 @@ Sub Demo()
 End Sub
 
 Public Sub ResetPerformance()
-    glPerfIndex = 0
+    giPerfIndex = 0
     ReDim gvPerfResults(1 To 3, 1 To 1)
 End Sub
 
 Public Sub ReportPerformance()
     Dim vNewPerf() As Variant
-    Dim lRow As Long
-    Dim lCol As Long
+    Dim iRow As Long
+    Dim iCol As Long
     ReDim vNewPerf(1 To UBound(gvPerfResults, 2) + 1, 1 To 3)
     vNewPerf(1, 1) = "Routine"
     vNewPerf(1, 2) = "Started at"
     vNewPerf(1, 3) = "Time taken"
     
-    For lRow = 1 To UBound(gvPerfResults, 2)
-        For lCol = 1 To 3
-            vNewPerf(lRow + 1, lCol) = gvPerfResults(lCol, lRow)
+    For iRow = 1 To UBound(gvPerfResults, 2)
+        For iCol = 1 To 3
+            vNewPerf(iRow + 1, iCol) = gvPerfResults(iCol, iRow)
         Next
     Next
     Workbooks.Add
@@ -45,10 +45,10 @@ Public Sub ReportPerformance()
 End Sub
 
 Sub AddPivot()
-    Dim oSh As Worksheet
-    Set oSh = ActiveSheet
+    Dim wks As Worksheet
+    Set wks = ActiveSheet
     ActiveWorkbook.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
-                                      oSh.UsedRange.Address(external:=True), Version:=xlPivotTableVersion14).CreatePivotTable _
+                                      wks.UsedRange.Address(external:=True), Version:=xlPivotTableVersion14).CreatePivotTable _
                                       TableDestination:="", TableName:="PerfReport", DefaultVersion:= _
                                       xlPivotTableVersion14
     ActiveSheet.PivotTableWizard TableDestination:=ActiveSheet.Cells(3, 1)

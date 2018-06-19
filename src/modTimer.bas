@@ -1,6 +1,8 @@
 Attribute VB_Name = "modTimer"
+
 Option Explicit
 Option Private Module
+
 #If VBA7 Then
     Private Declare PtrSafe Function getFrequency Lib "kernel32" Alias "QueryPerformanceFrequency" (cyFrequency As Currency) As Long
     Private Declare PtrSafe Function getTickCount Lib "kernel32" Alias "QueryPerformanceCounter" (cyTickCount As Currency) As Long
@@ -11,18 +13,15 @@ Option Private Module
     Private Declare Function timeGetTime Lib "winmm.dll" () As Long
 #End If
 
-Private mdTime As Double
-Private msComment As String
-
 Public Function dMicroTimer() As Double
-'-------------------------------------------------------------------------
+'------------------------------------------------------------------------------
 ' Procedure : dMicroTimer
 ' Author    : Charles Williams www.decisionmodels.com
 ' Created   : 15-June 2007
 ' Purpose   : High resolution timer
 '             Used for speed optimisation
-'-------------------------------------------------------------------------
-
+'------------------------------------------------------------------------------
+    
     Dim cyTicks1 As Currency
     Dim cyTicks2 As Currency
     Static cyFrequency As Currency
