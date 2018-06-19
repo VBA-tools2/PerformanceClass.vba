@@ -6,7 +6,26 @@ Option Explicit
 Public giPerfIndex  As Long
 Public gvPerfResults() As Variant
 Public giDepth As Long
+
+'==============================================================================
 Public Const gbDebug As Boolean = True
+'==============================================================================
+
+Public Function MeasureProcedurePerformance( _
+    ByVal ProcedureName As String, _
+    Optional ByVal IsMaster As Boolean = False _
+        ) As clsPerf
+    
+    Dim cPerf As clsPerf
+    
+    If IsMaster Then ResetPerformance
+    
+    If gbDebug Then
+        Set cPerf = New clsPerf
+        cPerf.SetRoutine ProcedureName
+        Set MeasureProcedurePerformance = cPerf
+    End If
+End Function
 
 Public Sub ResetPerformance()
     giPerfIndex = 0
