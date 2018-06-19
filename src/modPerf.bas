@@ -1,4 +1,5 @@
 Attribute VB_Name = "modPerf"
+
 Option Explicit
 
 'For 'clsPerf' class:
@@ -6,16 +7,6 @@ Public giPerfIndex  As Long
 Public gvPerfResults() As Variant
 Public giDepth As Long
 Public Const gbDebug As Boolean = True
-
-Sub Demo()
-    Dim cPerf As clsPerf
-    ResetPerformance
-    If gbDebug Then
-        Set cPerf = New clsPerf
-        cPerf.SetRoutine "Demo"
-    End If
-    Application.OnTime Now, "ReportPerformance"
-End Sub
 
 Public Sub ResetPerformance()
     giPerfIndex = 0
