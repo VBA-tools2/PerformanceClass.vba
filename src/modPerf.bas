@@ -78,6 +78,7 @@ Private Sub AddPivot( _
     
     Set wkb = wksSource.Parent
     Set wks = wkb.Worksheets.Add
+    wks.Name = "RoutinePivot"
     
     wkb.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
                                       wks.UsedRange.Address(external:=True), Version:=xlPivotTableVersion14).CreatePivotTable _
