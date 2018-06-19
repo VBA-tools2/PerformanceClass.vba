@@ -50,6 +50,7 @@ Public Sub ReportPerformance()
     Set wkb = Workbooks.Add
     Set wks = wkb.Worksheets(1)
     With wks
+        .Name = "RoutineTable"
         .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
         .UsedRange.EntireColumn.AutoFit
     End With
