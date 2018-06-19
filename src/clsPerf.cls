@@ -8,6 +8,28 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 
+'------------------------------------------------------------------------------
+''Example usage:
+'Sub Master()
+'    Dim cPerf As clsPerf
+'    'replace the name of the sub/function
+'    Set cPerf = MeasureProcedurePerformance("Master", True)
+'    '-----
+'    'put the code of this master sub/function here
+'    '-----
+'    Application.OnTime Now, "modPerf.ReportPerformance"
+'End Sub
+'
+'Sub Client()
+'    Dim cPerf As clsPerf
+'    'replace the name of the sub/function
+'    Set cPerf = MeasureProcedurePerformance("Client")
+'    '-----
+'    'put the code of this client sub/function here
+'    '-----
+'End Sub
+'------------------------------------------------------------------------------
+
 Option Explicit
 
 'Which item of 'gvPerfResults' "belongs" to this instance?
