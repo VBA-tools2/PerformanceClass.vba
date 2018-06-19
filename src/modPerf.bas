@@ -70,6 +70,9 @@ Private Sub AddPivot( _
     
     Dim wkb As Workbook
     Dim wks As Worksheet
+    Dim pvtCache As PivotCache
+    Dim pvt As PivotTable
+    Dim pvtField As PivotField
     
     
     If wksSource Is Nothing Then
@@ -80,20 +83,35 @@ Private Sub AddPivot( _
     Set wks = wkb.Worksheets.Add
     wks.Name = "RoutinePivot"
     
-    wkb.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
-                                      wks.UsedRange.Address(external:=True), Version:=xlPivotTableVersion14).CreatePivotTable _
-                                      TableDestination:="", TableName:="PerfReport", DefaultVersion:= _
-                                      xlPivotTableVersion14
-    wks.PivotTableWizard TableDestination:=wks.Cells(3, 1)
-    wks.Cells(3, 1).Select
-    With wks.PivotTables(1)
+    Set pvtCache = wkb.PivotCaches.Create( _
+            SourceType:=xlDatabase, _
+            SourceData:=wksSource.UsedRange.Address(External:=True), _
+            Version:=xlPivotTableVersion14 _
+    )
+    Set pvt = pvtCache.CreatePivotTable( _
+            TableDestination:=wks.Cells(3, 1), _
+            TableName:="PerfReport", _
+            DefaultVersion:=xlPivotTableVersion14 _
+    )
+    
+    With pvt
         With .PivotFields("Routine")
             .Orientation = xlRowField
             .Position = 1
         End With
-        .AddDataField wks.PivotTables(1).PivotFields("Time taken"), "Total Time taken", xlAverage
-        .PivotFields("Routine").AutoSort xlDescending, "Total Time taken"
-        .AddDataField .PivotFields("Time taken"), "Times called", xlCount
+        
+        Set pvtField = .AddDataField( _
+                .PivotFields("Time taken"), _
+                "Average Time taken", _
+                xlAverage _
+        )
+        .PivotFields("Routine").AutoSort _
+                xlDescending, _
+                pvtField.Name
+        .AddDataField _
+                pvt.PivotFields("Time taken"), _
+                "Times called", _
+                xlCount
         .RowAxisLayout xlTabularRow
         .ColumnGrand = False
         .RowGrand = False
