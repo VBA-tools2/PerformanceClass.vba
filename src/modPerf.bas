@@ -24,6 +24,8 @@ End Sub
 
 Public Sub ReportPerformance()
     
+    Dim wkb As Workbook
+    Dim wks As Worksheet
     Dim vNewPerf() As Variant
     Dim iRow As Long
     Dim iCol As Long
@@ -44,37 +46,52 @@ Public Sub ReportPerformance()
             vNewPerf(iRow + 1, iCol) = gvPerfResults(iCol, iRow)
         Next
     Next
-    Workbooks.Add
-    With ActiveSheet
+    
+    Set wkb = Workbooks.Add
+    Set wks = wkb.Worksheets(1)
+    With wks
         .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
         .UsedRange.EntireColumn.AutoFit
     End With
     
-    AddPivot
+    Call AddPivot(wks)
     
     Application.ScreenUpdating = True
     
 End Sub
 
-Sub AddPivot()
+Private Sub AddPivot( _
+    Optional ByVal wksSource As Worksheet = Nothing _
+)
+    
+    Dim wkb As Workbook
     Dim wks As Worksheet
-    Set wks = ActiveSheet
-    ActiveWorkbook.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
+    
+    
+    If wksSource Is Nothing Then
+        Set wksSource = ActiveSheet
+    End If
+    
+    Set wkb = wksSource.Parent
+    Set wks = wkb.Worksheets.Add
+    
+    wkb.PivotCaches.Create(SourceType:=xlDatabase, SourceData:= _
                                       wks.UsedRange.Address(external:=True), Version:=xlPivotTableVersion14).CreatePivotTable _
                                       TableDestination:="", TableName:="PerfReport", DefaultVersion:= _
                                       xlPivotTableVersion14
-    ActiveSheet.PivotTableWizard TableDestination:=ActiveSheet.Cells(3, 1)
-    ActiveSheet.Cells(3, 1).Select
-    With ActiveSheet.PivotTables(1)
+    wks.PivotTableWizard TableDestination:=wks.Cells(3, 1)
+    wks.Cells(3, 1).Select
+    With wks.PivotTables(1)
         With .PivotFields("Routine")
             .Orientation = xlRowField
             .Position = 1
         End With
-        .AddDataField ActiveSheet.PivotTables(1).PivotFields("Time taken"), "Total Time taken", xlAverage
+        .AddDataField wks.PivotTables(1).PivotFields("Time taken"), "Total Time taken", xlAverage
         .PivotFields("Routine").AutoSort xlDescending, "Total Time taken"
         .AddDataField .PivotFields("Time taken"), "Times called", xlCount
         .RowAxisLayout xlTabularRow
         .ColumnGrand = False
         .RowGrand = False
     End With
+    
 End Sub
