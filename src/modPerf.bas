@@ -1,7 +1,7 @@
 Attribute VB_Name = "modPerf"
 Option Explicit
 
-'For clsPerf Class:
+'For 'clsPerf' class:
 Public giPerfIndex  As Long
 Public gvPerfResults() As Variant
 Public giDepth As Long

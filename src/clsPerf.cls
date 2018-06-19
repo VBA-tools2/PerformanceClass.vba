@@ -10,9 +10,9 @@ Attribute VB_Exposed = False
 
 Option Explicit
 
-'Which item of gvPerfResults "belongs" to this instance?
+'Which item of 'gvPerfResults' "belongs" to this instance?
 Private piIndex As Long
-'When did we start"
+'When did we start?
 Private pdStartTime As Double
 
 Private Sub Class_Initialize()
@@ -20,7 +20,7 @@ Private Sub Class_Initialize()
     giPerfIndex = giPerfIndex + 1
     'store which one is in this class instance
     piIndex = giPerfIndex
-    'Increase the depth to create an illusioin of a call stack
+    'Increase the depth to create an illusion of a call stack
     giDepth = giDepth + 1
     If IsBounded(gvPerfResults) Then
         ReDim Preserve gvPerfResults(1 To 3, 1 To giPerfIndex)
@@ -41,7 +41,7 @@ Private Sub Class_Terminate()
     
     'Outdent the call stack depth
     giDepth = giDepth - 1
-    'Record starttime and run-time
+    'Record start time and run-time
     gvPerfResults(2, piIndex) = pdStartTime
     gvPerfResults(3, piIndex) = dMicroTimer - pdStartTime
 End Sub

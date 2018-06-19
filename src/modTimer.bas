@@ -19,7 +19,7 @@ Public Function dMicroTimer() As Double
 ' Author    : Charles Williams www.decisionmodels.com
 ' Created   : 15-June 2007
 ' Purpose   : High resolution timer
-'             Used for speed optimisation
+'             Used for speed optimization
 '------------------------------------------------------------------------------
     
     Dim cyTicks1 As Currency
