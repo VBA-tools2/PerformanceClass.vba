@@ -23,9 +23,13 @@ Public Sub ResetPerformance()
 End Sub
 
 Public Sub ReportPerformance()
+    
     Dim vNewPerf() As Variant
     Dim iRow As Long
     Dim iCol As Long
+    
+    
+    Application.ScreenUpdating = False
     
     ReDim vNewPerf( _
             LBound(gvPerfResults, 2) To UBound(gvPerfResults, 2) + 1, _
@@ -45,7 +49,11 @@ Public Sub ReportPerformance()
         .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
         .UsedRange.EntireColumn.AutoFit
     End With
+    
     AddPivot
+    
+    Application.ScreenUpdating = True
+    
 End Sub
 
 Sub AddPivot()
