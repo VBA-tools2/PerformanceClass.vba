@@ -53,6 +53,9 @@ Public Sub ReportPerformance()
         .Name = "RoutineTable"
         .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
         .UsedRange.EntireColumn.AutoFit
+        
+        .ListObjects.Add(xlSrcRange, .UsedRange, , xlYes).Name = _
+                "RoutineTable"
     End With
     
     Call AddPivot(wks)
