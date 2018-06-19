@@ -1,6 +1,8 @@
 Attribute VB_Name = "modTimer"
+
 Option Explicit
 Option Private Module
+
 #If VBA7 Then
     Private Declare PtrSafe Function getFrequency Lib "kernel32" Alias "QueryPerformanceFrequency" (cyFrequency As Currency) As Long
     Private Declare PtrSafe Function getTickCount Lib "kernel32" Alias "QueryPerformanceCounter" (cyTickCount As Currency) As Long
@@ -10,9 +12,6 @@ Option Private Module
     Private Declare Function getTickCount Lib "kernel32" Alias "QueryPerformanceCounter" (cyTickCount As Currency) As Long
     Private Declare Function timeGetTime Lib "winmm.dll" () As Long
 #End If
-
-Private mdTime As Double
-Private msComment As String
 
 Public Function dMicroTimer() As Double
 '-------------------------------------------------------------------------
