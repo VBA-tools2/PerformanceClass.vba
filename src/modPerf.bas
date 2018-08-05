@@ -8,7 +8,7 @@ Public gvPerfResults() As Variant
 Public giDepth As Long
 
 '==============================================================================
-Public Const gbDebug As Boolean = True
+Public Const gbDebug As Boolean = False
 '==============================================================================
 
 Public Function MeasureProcedurePerformance( _
@@ -40,6 +40,8 @@ Public Sub ReportPerformance()
     Dim iRow As Long
     Dim iCol As Long
     
+    
+    If gbDebug = False Then Exit Sub
     
     Application.ScreenUpdating = False
     
