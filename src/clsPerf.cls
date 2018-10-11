@@ -73,4 +73,5 @@ Private Function IsBounded(ByVal vArray As Variant) As Boolean
     On Error Resume Next
     iTest = UBound(vArray)
     IsBounded = (Err.Number = 0)
+    On Error GoTo 0
 End Function
