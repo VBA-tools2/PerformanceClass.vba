@@ -53,7 +53,7 @@ Private Sub Class_Initialize()
     pdStartTime = dMicroTimer
 End Sub
 
-Public Sub SetRoutine(sRoutineName)
+Public Sub SetRoutine(ByVal sRoutineName As String)
     gvPerfResults(1, piIndex) = String(giDepth * 4, " ") & sRoutineName
 End Sub
 
@@ -68,7 +68,7 @@ Private Sub Class_Terminate()
     gvPerfResults(3, piIndex) = dMicroTimer - pdStartTime
 End Sub
 
-Private Function IsBounded(vArray As Variant) As Boolean
+Private Function IsBounded(ByVal vArray As Variant) As Boolean
     Dim iTest As Long
     On Error Resume Next
     iTest = UBound(vArray)
