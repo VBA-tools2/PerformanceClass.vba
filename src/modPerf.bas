@@ -16,12 +16,12 @@ Public Function MeasureProcedurePerformance( _
     Optional ByVal IsMaster As Boolean = False _
         ) As clsPerf
     
-    Dim cPerf As clsPerf
-    
     If IsMaster Then ResetPerformance
     
     If gbDebug Then
+        Dim cPerf As clsPerf
         Set cPerf = New clsPerf
+        
         cPerf.SetRoutine ProcedureName
         Set MeasureProcedurePerformance = cPerf
     End If
@@ -34,17 +34,11 @@ End Sub
 
 Public Sub ReportPerformance()
     
-    Dim wkb As Workbook
-    Dim wks As Worksheet
-    Dim vNewPerf() As Variant
-    Dim iRow As Long
-    Dim iCol As Long
-    
-    
     If gbDebug = False Then Exit Sub
     
     Application.ScreenUpdating = False
     
+    Dim vNewPerf() As Variant
     ReDim vNewPerf( _
             LBound(gvPerfResults, 2) To UBound(gvPerfResults, 2) + 1, _
             LBound(gvPerfResults, 1) To UBound(gvPerfResults, 1) _
@@ -53,14 +47,20 @@ Public Sub ReportPerformance()
     vNewPerf(LBound(vNewPerf), 2) = "Started at"
     vNewPerf(LBound(vNewPerf), 3) = "Time taken"
     
+    Dim iRow As Long
     For iRow = LBound(gvPerfResults, 2) To UBound(gvPerfResults, 2)
+        Dim iCol As Long
         For iCol = LBound(gvPerfResults, 1) To UBound(gvPerfResults, 1)
             vNewPerf(iRow + 1, iCol) = gvPerfResults(iCol, iRow)
         Next
     Next
     
+    Dim wkb As Workbook
     Set wkb = Workbooks.Add
+    
+    Dim wks As Worksheet
     Set wks = wkb.Worksheets(1)
+    
     With wks
         .Name = "RoutineTable"
         .Cells(1, 1).Resize(UBound(vNewPerf, 1), UBound(vNewPerf, 2)).Value = vNewPerf
@@ -80,26 +80,25 @@ Private Sub AddPivot( _
     Optional ByVal wksSource As Worksheet = Nothing _
 )
     
-    Dim wkb As Workbook
-    Dim wks As Worksheet
-    Dim pvtCache As PivotCache
-    Dim pvt As PivotTable
-    Dim pvtField As PivotField
-    
-    
     If wksSource Is Nothing Then
         Set wksSource = ActiveSheet
     End If
     
+    Dim wkb As Workbook
     Set wkb = wksSource.Parent
+    
+    Dim wks As Worksheet
     Set wks = wkb.Worksheets.Add
     wks.Name = "RoutinePivot"
     
+    Dim pvtCache As PivotCache
     Set pvtCache = wkb.PivotCaches.Create( _
             SourceType:=xlDatabase, _
             SourceData:=wksSource.UsedRange.Address(External:=True), _
             Version:=xlPivotTableVersion14 _
     )
+    
+    Dim pvt As PivotTable
     Set pvt = pvtCache.CreatePivotTable( _
             TableDestination:=wks.Cells(3, 1), _
             TableName:="PerfReport", _
@@ -112,6 +111,7 @@ Private Sub AddPivot( _
             .Position = 1
         End With
         
+        Dim pvtField As PivotField
         Set pvtField = .AddDataField( _
                 .PivotFields("Time taken"), _
                 "Average Time taken", _

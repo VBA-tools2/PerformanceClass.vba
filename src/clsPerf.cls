@@ -69,8 +69,8 @@ Private Sub Class_Terminate()
 End Sub
 
 Private Function IsBounded(ByVal vArray As Variant) As Boolean
-    Dim iTest As Long
     On Error Resume Next
+    Dim iTest As Long
     iTest = UBound(vArray)
     IsBounded = (Err.Number = 0)
     On Error GoTo 0
