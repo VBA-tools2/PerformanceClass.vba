@@ -88,7 +88,7 @@ Private Sub AddPivot( _
     Set wkb = wksSource.Parent
     
     Dim wks As Worksheet
-    Set wks = wkb.Worksheets.Add
+    Set wks = wkb.Worksheets.Add(After:=wkb.Worksheets(wkb.Worksheets.Count))
     wks.Name = "RoutinePivot"
     
     Dim pvtCache As PivotCache
