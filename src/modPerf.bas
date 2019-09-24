@@ -111,19 +111,33 @@ Private Sub AddPivot( _
             .Position = 1
         End With
         
-        Dim pvtField As PivotField
-        Set pvtField = .AddDataField( _
-                .PivotFields("Time taken"), _
-                "Average Time taken", _
-                xlAverage _
-        )
-        .PivotFields("Routine").AutoSort _
-                xlDescending, _
-                pvtField.Name
         .AddDataField _
                 pvt.PivotFields("Time taken"), _
                 "Times called", _
                 xlCount
+        .AddDataField _
+                pvt.PivotFields("Time taken"), _
+                "Sum", _
+                xlSum
+        Dim pvtField As PivotField
+        Set pvtField = .AddDataField( _
+                .PivotFields("Time taken"), _
+                "Average", _
+                xlAverage _
+        )
+        .AddDataField _
+                pvt.PivotFields("Time taken"), _
+                "Min", _
+                xlMin
+        .AddDataField _
+                pvt.PivotFields("Time taken"), _
+                "Max", _
+                xlMax
+        
+        .PivotFields("Routine").AutoSort _
+                xlDescending, _
+                pvtField.Name
+        
         .RowAxisLayout xlTabularRow
         .ColumnGrand = False
         .RowGrand = False
