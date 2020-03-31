@@ -1,5 +1,7 @@
 Attribute VB_Name = "modTimer"
 
+'@Folder("Performance")
+
 Option Explicit
 Option Private Module
 
