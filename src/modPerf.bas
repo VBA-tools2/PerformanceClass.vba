@@ -1,5 +1,7 @@
 Attribute VB_Name = "modPerf"
 
+'@Folder("Performance")
+
 Option Explicit
 
 'For 'clsPerf' class:
