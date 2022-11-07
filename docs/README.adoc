@@ -1,0 +1,147 @@
+
+= PerformanceClass.vba
+:experimental:
+:icons:         // not sure if this is needed
+:sourcedir: ../src
+:testdir: ../tests
+:uri-commit-messages: https://www.conventionalcommits.org
+:uri-JKP-PerformanceClass: https://jkp-ads.com/Articles/performanceclass.asp
+:uri-GitHub-FirstContribution: https://github.com/firstcontributions/first-contributions
+:uri-license: https://choosealicense.com/licenses/mit/
+:uri-rubberduck: https://rubberduckvba.com/
+:uri-UnitTests: https://en.wikipedia.org/wiki/Unit_testing
+// show the corresponding icons on GitHub, because otherwise "just" the text will be shown
+ifdef::env-github[]
+:caution-caption: :fire:
+:important-caption: :exclamation:
+:note-caption: :information_source:
+:tip-caption: :bulb:
+:warning-caption: :warning:
+endif::[]
+
+An Excel VBA performance class.
+
+This is essentially a republish of Jan Karel Pieterse's article {uri-JKP-PerformanceClass}.
+So all credits go to him!
+
+The main reason for this repository is to bundle all improvements at one point.
+
+== Features
+
+* Measure the run-time of subs/functions,
+* including sub-subs/sub-functions, and
+* create a report as a workbook.
+
+== Prerequisites / Dependencies
+
+Since this is for Excel VBA code you obviously need Microsoft Excel.
+
+[#how-to-install]
+== How to install / Getting started
+
+Add the file(s) from the link:{sourcedir}[src] folder to your project.
+Yes, its that simple.
+
+The bit longer version is:
+
+. Open Microsoft Excel.
+. Open the Visual Basic Editor (VBE) (kbd:[Alt+F11]).
+. Add file(s) from the link:{sourcedir}[src] folder to your VBA project.
+** With {uri-rubberduck}[Rubberduck]:
+.. Right-click on the project to which you want to add the file(s) in the "`Code Explorer`" (to show it press kbd:[Ctrl+R]) and click on menu:Add[Existing Files...].
+.. Select all files in the link:{sourcedir}[src] folder and click on btn:[Open].
+** Without Rubberduck:
+.. Select all files in the link:{sourcedir}[src] folder in the (Windows) explorer.
+.. Drag-and-drop them to the corresponding project in VBE's "`Project Explorer`". +
+   (To show it press kbd:[Ctrl+R].
+   Hit it twice if the Code Explorer shows up first.)
+. Add "`measurement`" code to the procedures you want to measure.
++
+[NOTE]
+====
+Ensure that you put the code _after_ stuff that needs user interaction like message or input boxes.
+Otherwise you will just measure how fast the user responds to these boxes instead of the runtime of the (rest) of the code.
+====
++
+.. Add the lines
++
+[source,vba]
+----
+    Dim cPerf As clsPerf
+    Set cPerf = MeasureProcedurePerformance("Master", True)
+----
++
+near the top of the "`master`" procedure, i.e. the procedure that is the entry point/start point, and rename "`Master`" to the name of the actual procedure.
+.. Add
++
+[source,vba]
+----
+    Application.OnTime Now, "modPerf.ReportPerformance"
+----
++
+at the exit point of the "`master`" procedure when you "`automatically`" want to call the performance report.
+.. Add the lines
++
+[source,vba]
+----
+    Dim cPerf As clsPerf
+    Set cPerf = MeasureProcedurePerformance("Client")
+----
++
+near the top of all the "`client`" procedures, i.e. the procedures that you want to track as well, and rename "`Client`" to the name of the actual procedures.
+. "`Activate`" the performance measurement by setting `+gbDebug+` in `+modPerf+` to `+True+`.
+  (If you don't do that everything should work as without the addition of the above codes.)
+// BUG: "project name" can't be put in normal angle brackets, because the closing bracket would be interpreted as menu delimiter. I couldn't find a way how to "escape" that (i.e. a backslash didn't work). Thus, single guillemets are used.
+. Check, if there are obvious errors by compiling the project (menu:Debug[Compile ‹project name›]).
+. Save the file/project.
+.. Be sure that the file/project you want to save is "`active`" in the VBE by checking, if its name is shown in the VBE's title bar. +
+   (If it's not, open a (class) module of the corresponding project (and close it again).)
+.. Press the "`Save`" button (the disc symbol similar to 💾) in VBE's toolbar.
+.. Check that the file (really) was saved by having a look at the "`last modified date`" of the (project) file in the Windows Explorer.
+
+== Usage / Show it in action
+
+If you have followed the instructions given in the <<#how-to-install>> section, running the "`master`" procedure will be trigger the performance measurement(s).
+A new workbook will open when "`master`" procedure has finished where you can inspect the results.
+
+In case you want to first see code in action before modifying our own procedures, you can have a look at the link:{testdir}[tests] folder.
+There you will find a test a test file.
+Follow the given instructions.
+
+== Running Tests
+
+Unfortunately we don't know how to create automated tests/unit tests for this project.
+If you have an idea, we would love to see it!
+Please add an issue or – even better – a pull request (see the <<#contributing>> section).
+
+But of course one can manually test it.
+Please have a look at the link:{testdir}[tests] folder.
+
+== Used By
+
+Currently we can't remember of some public code where this code is used 😞.
+If _you_ know some, we will be happy to add them here.
+
+== Known issues and limitations
+
+None that we are aware of.
+
+[#contributing]
+== Contributing
+
+All contributions are highly welcome!!
+
+If you are new to git/GitHub, please have a look at {uri-GitHub-FirstContribution} where you will find a lot of useful information for beginners.
+
+We recently were pointed to {uri-commit-messages} which sounds very promising.
+We will use them from now on too (and hopefully don't forget it in a hurry).
+
+== FAQ
+
+[qanda]
+What are the `+'@...+` comments good for in the code?::
+You should really have a look at the awesome {uri-rubberduck}[Rubberduck] project!
+
+== License
+
+{uri-license}[MIT]

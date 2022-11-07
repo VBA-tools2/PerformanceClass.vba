@@ -1,0 +1,18 @@
+// cSpell Settings
+{
+    // ignoreWords - list of words that should be ignored
+    "ignoreWords": [
+        "ifdef",
+        "qanda",
+        "sourcedir",
+        "testdir",
+        "VBE"
+    ],
+    // words - list of words to be always considered correct
+    "words": [
+        "guillemets",
+        "karel",
+        "pieterse",
+        "rubberduck"
+    ]
+}
