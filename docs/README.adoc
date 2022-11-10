@@ -39,31 +39,40 @@ Since this is for Excel VBA code you obviously need Microsoft Excel.
 [#how-to-install]
 == How to install / Getting started
 
-Add the file(s) from the link:{sourcedir}[src] folder to your project.
-Yes, its that simple.
+First, to be able to measure the performance, you need to add the file(s) from the link:{sourcedir}[src] folder to your project.
 
-The bit longer version is:
-
+._If you need some more advice on how to do that, expand me._
+[%collapsible]
+====
 . Open Microsoft Excel.
 . Open the Visual Basic Editor (VBE) (kbd:[Alt+F11]).
-. Add file(s) from the link:{sourcedir}[src] folder to your VBA project.
+. Add the file(s) in the link:{sourcedir}[src] folder to your VBA project.
 ** With {uri-rubberduck}[Rubberduck]:
 .. Right-click on the project to which you want to add the file(s) in the "`Code Explorer`" (to show it press kbd:[Ctrl+R]) and click on menu:Add[Existing Files...].
 .. Select all files in the link:{sourcedir}[src] folder and click on btn:[Open].
 ** Without Rubberduck:
-.. Select all files in the link:{sourcedir}[src] folder in the (Windows) explorer.
+.. Select all files in the link:{sourcedir}[src] folder in Windows File Explorer.
 .. Drag-and-drop them to the corresponding project in VBE's "`Project Explorer`". +
    (To show it press kbd:[Ctrl+R].
    Hit it twice if the Code Explorer shows up first.)
-. Add "`measurement`" code to the procedures you want to measure.
-+
-[NOTE]
+// BUG: "project name" can't be put in normal angle brackets, because the closing bracket would be interpreted as menu delimiter. I couldn't find a way how to "escape" that (i.e. a backslash didn't work). Thus, single guillemets are used.
+. Check, if there are obvious errors by compiling the project (menu:Debug[Compile ‹project name›]).
+. Save the file/project.
+.. Be sure that the file/project you want to save is "`active`" in the VBE by checking, if its name is shown in VBE's title bar. +
+   (If it's not, open a (class) module of the corresponding project (and close it again).)
+.. Press the "`Save`" button (the disc symbol similar to 💾) in VBE's toolbar.
+.. Check that the file (really) was saved by having a look at the "`last modified date`" of the (project) file in the Windows File Explorer.
 ====
+
+Next, you add the "`measurement`" code to the procedures you want to measure.
+
+[NOTE]
+======
 Ensure that you put the code _after_ stuff that needs user interaction like message or input boxes.
 Otherwise you will just measure how fast the user responds to these boxes instead of the runtime of the (rest) of the code.
-====
-+
-.. Add the lines
+======
+
+. Add the lines
 +
 [source,vba]
 ----
@@ -72,7 +81,7 @@ Otherwise you will just measure how fast the user responds to these boxes instea
 ----
 +
 near the top of the "`master`" procedure, i.e. the procedure that is the entry point/start point, and rename "`Master`" to the name of the actual procedure.
-.. Add
+. Add
 +
 [source,vba]
 ----
@@ -80,7 +89,7 @@ near the top of the "`master`" procedure, i.e. the procedure that is the entry p
 ----
 +
 at the exit point of the "`master`" procedure when you "`automatically`" want to call the performance report.
-.. Add the lines
+. Add the lines
 +
 [source,vba]
 ----
@@ -89,15 +98,16 @@ at the exit point of the "`master`" procedure when you "`automatically`" want to
 ----
 +
 near the top of all the "`client`" procedures, i.e. the procedures that you want to track as well, and rename "`Client`" to the name of the actual procedures.
-. "`Activate`" the performance measurement by setting `+gbDebug+` in `+modPerf+` to `+True+`.
-  (If you don't do that everything should work as without the addition of the above codes.)
-// BUG: "project name" can't be put in normal angle brackets, because the closing bracket would be interpreted as menu delimiter. I couldn't find a way how to "escape" that (i.e. a backslash didn't work). Thus, single guillemets are used.
-. Check, if there are obvious errors by compiling the project (menu:Debug[Compile ‹project name›]).
-. Save the file/project.
-.. Be sure that the file/project you want to save is "`active`" in the VBE by checking, if its name is shown in the VBE's title bar. +
-   (If it's not, open a (class) module of the corresponding project (and close it again).)
-.. Press the "`Save`" button (the disc symbol similar to 💾) in VBE's toolbar.
-.. Check that the file (really) was saved by having a look at the "`last modified date`" of the (project) file in the Windows Explorer.
+
+Last, to really measure the performance, you need to "`activate`" the measurement.
+To do so
+
+* set the global variable `+gbDebug+` in the `+modPerf+` module to `+True+`.
+
+[IMPORTANT]
+====
+Without this last step, everything should work as without the addition of all the above codes, i.e., as we never would have added some performance measurement code.
+====
 
 == Usage / Show it in action
 
